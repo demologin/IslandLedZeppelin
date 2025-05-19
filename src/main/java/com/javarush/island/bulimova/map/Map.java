@@ -9,6 +9,8 @@ import lombok.Data;
 public class Map {
 
    private Cell [][] map;
+    int height;
+    int width;
 
     public Map(int height, int  width) {
         this.map = new Cell[height][width];

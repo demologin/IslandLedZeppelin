@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public class Grass extends Organisms {
 
-
     public Grass(int COUNT_IN_CELL, String ICON, OrganismsType TYPE, double MAX_WEIGHT_ANIMALS, int SPEED, Gender GENDER) {
         super(COUNT_IN_CELL, ICON, TYPE, MAX_WEIGHT_ANIMALS, SPEED, GENDER);
     }

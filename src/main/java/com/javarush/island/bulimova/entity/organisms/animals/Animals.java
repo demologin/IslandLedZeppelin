@@ -9,6 +9,9 @@ import com.javarush.island.bulimova.map.Cell;
 import com.javarush.island.bulimova.map.Map;
 import com.javarush.island.bulimova.util.constants.Constants;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -20,7 +23,6 @@ public abstract class Animals extends Organisms implements Eater, Move {
         super(COUNT_IN_CELL, ICON, TYPE, MAX_WEIGHT_ANIMALS, SPEED, GENDER);
     }
 
-
     @Override
     public void move(Cell currentCell, Map map) {
 
@@ -28,20 +30,20 @@ public abstract class Animals extends Organisms implements Eater, Move {
         try {
 
             int stepLimit = ThreadLocalRandom.current().nextInt(1, this.getCOUNT_IN_CELL() + 1);
-            this.setCurrentSpeed(stepLimit);
 
-            double currentWeight = this.getWEIGHT_ANIMALS();
-            double penaltyPerMove = this.getWEIGHT_ANIMALS();
+            if (this.getWEIGHT_ANIMALS() > this.getPENALTY_PER_MOVE() * stepLimit) {
+                Cell targetCell = anotherCell(map.getMap(), currentCell, stepLimit);
 
 
-            if (currentWeight > penaltyPerMove) {
-                boolean tryMove = AnotherCell(map.getMap(), currentCell, stepLimit);
+                if (targetCell != currentCell) {
 
-                if (tryMove) {
-                    this.setWEIGHT_ANIMALS(currentWeight - penaltyPerMove);
+                    currentCell.getOrganism().remove(this);
+
+                    targetCell.getOrganism().add(this);
+
+
+                    this.setWEIGHT_ANIMALS(getWEIGHT_ANIMALS() - this.getPENALTY_PER_MOVE() * stepLimit);
                 }
-
-
             }
 
         } finally {
@@ -52,22 +54,55 @@ public abstract class Animals extends Organisms implements Eater, Move {
 
     }
 
-    private boolean AnotherCell(Cell[][] map, Cell currentCell, int stepLimit) {
-        int height = map.length;
-        int width = map[0].length;
+    private Cell anotherCell(Cell[][] map, Cell currentCell, int stepLimit) {
 
-//        if () {
-//
-//
-//
-//            currentCell.getOrganism().remove(this);
-//            NewCell.getOrganism().add(this);
-//            return true;
-//        }
+        int widthX = map.length;
+        int heightY = map[0].length;
 
-        return false;
+        int x = currentCell.getX();
+        int y = currentCell.getY();
+
+
+        List<Cell> coordinate = new ArrayList<>();
+
+        if (x + stepLimit < widthX) {
+
+            coordinate.add(map[x + stepLimit][y]);
+        }
+        if (x - stepLimit >= 0) {
+            coordinate.add(map[x - stepLimit][y]);
+        }
+        if (y + stepLimit < heightY) {
+            coordinate.add(map[x][y + stepLimit]);
+        }
+        if (y - stepLimit >= 0) {
+            coordinate.add(map[x][y - stepLimit]);
+        }
+        coordinate.add(currentCell);
+
+        Collections.shuffle(coordinate);
+
+        for (Cell targetCell : coordinate) {
+
+
+            if (!targetCell.getLock().tryLock()) continue;
+
+            try {
+                long sameTypeCount = targetCell.getOrganism().stream()
+                        .filter(o -> this.getClass().isInstance(o))
+                        .count();
+
+                if (sameTypeCount < this.getCOUNT_IN_CELL()) {
+                    return targetCell;
+                }
+
+
+            } finally {
+                targetCell.getLock().unlock();
+            }
+        }
+        return currentCell;
     }
-
 
     @Override
     public void eat(Cell currentCell) {

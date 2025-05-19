@@ -11,6 +11,14 @@ import java.util.concurrent.locks.ReentrantLock;
 @NoArgsConstructor
 public class Cell {
 
+    public Cell(int x, int y) {
+        this.y = y;
+        this.x = x;
+    }
+
+    private int x;
+    private int y;
+
     private final ReentrantLock lock = new ReentrantLock();
     ArrayList<Organisms> organism = new ArrayList<>();
 

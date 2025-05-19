@@ -27,8 +27,6 @@ public abstract class Organisms implements Reproduce, Cloneable {
 
     private final int SPEED;
 
-    private int currentSpeed;
-
     private final Gender GENDER;
 
     private boolean hungry = true;
