@@ -15,7 +15,6 @@ public enum OrganismsType {
     BOAR("Boar"),
     BUFFALO("Buffalo"),
     DUCK("Duck"),
-    CATERPILLAR("Caterpillar"),
     GRASS("Grass");
 
     private final String name;

@@ -3,24 +3,20 @@ package com.javarush.island.bulimova.entity.organisms.animals;
 import com.javarush.island.bulimova.entity.Eater;
 import com.javarush.island.bulimova.entity.Move;
 import com.javarush.island.bulimova.entity.enums.Gender;
-import com.javarush.island.bulimova.entity.enums.OrganismsType;
 import com.javarush.island.bulimova.entity.organisms.Organisms;
 import com.javarush.island.bulimova.map.Cell;
 import com.javarush.island.bulimova.map.Map;
-import com.javarush.island.bulimova.util.constants.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 
 public abstract class Animals extends Organisms implements Eater, Move {
 
-
-    public Animals(int COUNT_IN_CELL, String ICON, OrganismsType TYPE, double MAX_WEIGHT_ANIMALS, int SPEED, Gender GENDER) {
-        super(COUNT_IN_CELL, ICON, TYPE, MAX_WEIGHT_ANIMALS, SPEED, GENDER);
+    public Animals(int COUNT_IN_CELL, String ICON, double MAX_WEIGHT_ORGANISM, int SPEED) {
+        super(COUNT_IN_CELL, ICON, MAX_WEIGHT_ORGANISM, SPEED);
     }
 
     @Override
@@ -31,7 +27,7 @@ public abstract class Animals extends Organisms implements Eater, Move {
 
             int stepLimit = ThreadLocalRandom.current().nextInt(1, this.getCOUNT_IN_CELL() + 1);
 
-            if (this.getWEIGHT_ANIMALS() > this.getPENALTY_PER_MOVE() * stepLimit) {
+            if (this.getCurrent_weight() > this.getPENALTY_PER_MOVE() * stepLimit) {
                 Cell targetCell = anotherCell(map.getMap(), currentCell, stepLimit);
 
 
@@ -42,7 +38,7 @@ public abstract class Animals extends Organisms implements Eater, Move {
                     targetCell.getOrganism().add(this);
 
 
-                    this.setWEIGHT_ANIMALS(getWEIGHT_ANIMALS() - this.getPENALTY_PER_MOVE() * stepLimit);
+                    this.setCurrent_weight(getCurrent_weight() - this.getPENALTY_PER_MOVE() * stepLimit);
                 }
             }
 
@@ -91,6 +87,8 @@ public abstract class Animals extends Organisms implements Eater, Move {
                 long sameTypeCount = targetCell.getOrganism().stream()
                         .filter(o -> this.getClass().isInstance(o))
                         .count();
+
+                // добавить условие, что если есть, что поесть, то заходим в клетку, если нет, перемещаемся
 
                 if (sameTypeCount < this.getCOUNT_IN_CELL()) {
                     return targetCell;

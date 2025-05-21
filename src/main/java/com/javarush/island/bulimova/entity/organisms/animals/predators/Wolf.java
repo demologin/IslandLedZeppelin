@@ -2,10 +2,26 @@ package com.javarush.island.bulimova.entity.organisms.animals.predators;
 
 import com.javarush.island.bulimova.entity.enums.Gender;
 import com.javarush.island.bulimova.entity.enums.OrganismsType;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public class Wolf extends  Predators {
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.locks.ReentrantLock;
 
-    public Wolf(int COUNT_IN_CELL, String ICON, OrganismsType TYPE, double MAX_WEIGHT_ANIMALS, int SPEED, Gender GENDER) {
-        super(COUNT_IN_CELL, ICON, TYPE, MAX_WEIGHT_ANIMALS, SPEED, GENDER);
+public class Wolf extends Predators {
+
+    public Wolf() {
+        super(40, "\uD83D\uDC3A", 50, 3);
     }
+
+
 }
+
+
+
+
+
+
+
+
+

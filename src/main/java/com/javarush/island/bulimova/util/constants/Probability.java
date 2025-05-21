@@ -3,9 +3,10 @@ package com.javarush.island.bulimova.util.constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Probability {
-    static final String[] NAMES_ANIMALS = {
+
+    public static final String[] NAMES_ANIMALS =  {
             "Wolf", "Boa", "Fox", "Bear", "Eagle",
-            "Horse", "Deer", "Rabbit", "Mouse", "Goat", "Sheep", "Boar", "Buffalo", "Duck", "Caterpillar",
+            "Horse", "Deer", "Rabbit", "Mouse", "Goat", "Sheep", "Boar", "Buffalo", "Duck",
             "Grass",
     };
     @JsonIgnore
@@ -24,7 +25,6 @@ public class Probability {
             {0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 90, 100},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 90, 100},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     };
 
