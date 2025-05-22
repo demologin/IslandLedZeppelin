@@ -144,6 +144,7 @@ public class Viewer {
         System.out.print("Total \uD83E\uDD86 "  + countDuck +" || ");
         System.out.println("Total \uD83C\uDF3F "  + countGrass +" || ");
         System.out.println();
+        System.out.println();
         totalCount = 0;
         countWolf = 0;
         countBoa = 0;
