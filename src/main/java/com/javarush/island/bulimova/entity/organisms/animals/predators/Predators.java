@@ -1,13 +1,12 @@
 package com.javarush.island.bulimova.entity.organisms.animals.predators;
 
-import com.javarush.island.bulimova.entity.enums.Gender;
-import com.javarush.island.bulimova.entity.organisms.Organisms;
+import com.javarush.island.bulimova.entity.organisms.Organism;
 import com.javarush.island.bulimova.entity.organisms.animals.herbivores.Herbivores;
 import com.javarush.island.bulimova.map.Cell;
 
 import java.util.Optional;
 
-public class Predators extends Organisms {
+public class Predators extends Organism {
 
     public Predators(int COUNT_IN_CELL, String ICON, double MAX_WEIGHT_ORGANISM, int SPEED) {
         super(COUNT_IN_CELL, ICON, MAX_WEIGHT_ORGANISM, SPEED);
@@ -15,12 +14,12 @@ public class Predators extends Organisms {
 
     public void eat(Cell currentCell) {
 
-        Optional<Organisms> her = currentCell.getOrganism().stream().filter(a -> a instanceof Herbivores)
+        Optional<Organism> her = currentCell.getOrganism().stream().filter(a -> a instanceof Herbivores)
                 .filter(a -> a.getCurrent_weight() > 0.0)
                 .findAny();
 
         if (!her.isEmpty()) {
-            Organisms org = her.get();
+            Organism org = her.get();
             try {
                 org.getLock().lock();
                 double currentWeight = this.getCurrent_weight();

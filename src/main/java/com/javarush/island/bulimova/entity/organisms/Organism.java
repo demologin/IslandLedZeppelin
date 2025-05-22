@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Data
-public abstract class Organisms implements Reproduce, Cloneable {
+public abstract class Organism implements Reproduce, Cloneable {
 
     private final int COUNT_IN_CELL;
 
@@ -30,7 +30,7 @@ public abstract class Organisms implements Reproduce, Cloneable {
 
     private final double PENALTY_PER_MOVE;
 
-    public Organisms(int COUNT_IN_CELL, String ICON, double MAX_WEIGHT_ORGANISM, int SPEED) {
+    public Organism(int COUNT_IN_CELL, String ICON, double MAX_WEIGHT_ORGANISM, int SPEED) {
         this.COUNT_IN_CELL = COUNT_IN_CELL;
         this.ICON = ICON;
         this.MAX_WEIGHT_ORGANISM = MAX_WEIGHT_ORGANISM;
@@ -95,14 +95,14 @@ public abstract class Organisms implements Reproduce, Cloneable {
 
             if (herCount < this.getCOUNT_IN_CELL()) {
 
-                Optional<Organisms> her = currentCell.getOrganism().stream().filter(a -> this.getClass().isInstance(a))
+                Optional<Organism> her = currentCell.getOrganism().stream().filter(a -> this.getClass().isInstance(a))
                         .filter(a -> !a.getGENDER().equals(getGENDER()))
                         .findAny();
                 if (!her.isEmpty()) {
-                    Organisms org = her.get();
+                    Organism org = her.get();
                     try {
                         org.getLock().lock();
-                        Organisms clonedOrganism = (Organisms) org.clone();
+                        Organism clonedOrganism = (Organism) org.clone();
                         currentCell.getOrganism().add(clonedOrganism);
                         setHungry(false);
 
@@ -121,9 +121,9 @@ public abstract class Organisms implements Reproduce, Cloneable {
         }
     }
 
-    public Organisms clone() {
+    public Organism clone() {
         try {
-            Organisms clone = (Organisms) super.clone();
+            Organism clone = (Organism) super.clone();
             double weight = ThreadLocalRandom.current().nextDouble(current_weight / 2, current_weight);
             clone.current_weight = weight;
             clone.hungry = true;

@@ -13,6 +13,8 @@ public class Map {
     int width;
 
     public Map(int height, int  width) {
+        this.height = height;
+        this.width = width;
         this.map = new Cell[height][width];
     }
 

@@ -1,8 +1,6 @@
 package com.javarush.island.bulimova.entity.organisms.animals.herbivores;
 
-import com.javarush.island.bulimova.entity.enums.Gender;
-import com.javarush.island.bulimova.entity.enums.OrganismsType;
-import com.javarush.island.bulimova.entity.organisms.Organisms;
+import com.javarush.island.bulimova.entity.organisms.Organism;
 import com.javarush.island.bulimova.entity.organisms.animals.Animals;
 import com.javarush.island.bulimova.entity.organisms.plants.Grass;
 import com.javarush.island.bulimova.map.Cell;
@@ -17,12 +15,12 @@ public class Herbivores extends Animals {
 
     public void eat(Cell currentCell) {
 
-        Optional<Organisms> her = currentCell.getOrganism().stream().filter(a -> a instanceof Grass)
+        Optional<Organism> her = currentCell.getOrganism().stream().filter(a -> a instanceof Grass)
                 .filter(a -> a.getCurrent_weight() > 0.0)
                 .findAny();
 
         if (!her.isEmpty()) {
-            Organisms org = her.get();
+            Organism org = her.get();
             try {
                 org.getLock().lock();
                 double currentWeight = this.getCurrent_weight();

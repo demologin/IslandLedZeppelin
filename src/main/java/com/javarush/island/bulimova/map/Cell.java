@@ -1,6 +1,6 @@
 package com.javarush.island.bulimova.map;
 
-import com.javarush.island.bulimova.entity.organisms.Organisms;
+import com.javarush.island.bulimova.entity.organisms.Organism;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +20,7 @@ public class Cell {
     private int y;
 
     private final ReentrantLock lock = new ReentrantLock();
-    ArrayList<Organisms> organism = new ArrayList<>();
+    ArrayList<Organism> organism = new ArrayList<>();
 
 
 }
