@@ -7,8 +7,13 @@ import com.javarush.island.bulimova.entity.organisms.plants.Grass;
 import com.javarush.island.bulimova.front.Viewer;
 import com.javarush.island.bulimova.map.Cell;
 import com.javarush.island.bulimova.map.Map;
+import com.javarush.island.bulimova.service.ExecutorAnimals;
+import com.javarush.island.bulimova.service.ViewerTask;
 import com.javarush.island.bulimova.util.constants.Constants;
 import com.javarush.island.bulimova.util.constants.factory.FactoryOrganism;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class GeneralClass {
@@ -20,7 +25,10 @@ public class GeneralClass {
         Cell[][] initMap = factoryOrganism.init(map.getMap());
         map.setMap(initMap);
         Viewer viewer = new Viewer();
-        viewer.scan(map.getMap());
+        ExecutorService executor = Executors.newCachedThreadPool();
+        executor.submit(new ViewerTask(viewer, map.getMap()));
+//        Viewer viewer = new Viewer();
+//        viewer.scan(map.getMap());
 //        for (int i = 0; i < map.getWidth(); i++) {
 //            for (int j = 0; j < map.getHeight(); j++) {
 //                Cell cell = map.getMap()[i][j];

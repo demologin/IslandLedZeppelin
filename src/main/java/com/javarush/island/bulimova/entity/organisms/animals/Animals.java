@@ -87,8 +87,6 @@ public abstract class Animals extends Organism implements Eater, Move {
                         .filter(o -> this.getClass().isInstance(o))
                         .count();
 
-                // добавить условие, что если есть, что поесть, то заходим в клетку, если нет, перемещаемся
-
                 if (sameTypeCount < this.getCOUNT_IN_CELL()) {
                     return targetCell;
                 }

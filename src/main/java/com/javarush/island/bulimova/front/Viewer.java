@@ -142,7 +142,8 @@ public class Viewer {
         System.out.print("Total \uD83D\uDC17 "  + countBoar +" || ");
         System.out.print("Total \uD83D\uDC03 "  + countBuffalo +" || ");
         System.out.print("Total \uD83E\uDD86 "  + countDuck +" || ");
-        System.out.print("Total \uD83C\uDF3F "  + countGrass +" || ");
+        System.out.println("Total \uD83C\uDF3F "  + countGrass +" || ");
+        System.out.println();
         totalCount = 0;
         countWolf = 0;
         countBoa = 0;
