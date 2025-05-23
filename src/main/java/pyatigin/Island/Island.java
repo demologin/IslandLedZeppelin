@@ -7,7 +7,6 @@ import pyatigin.util.RandomGenerator;
 
 import java.util.*;
 
-
 public class Island {
     @Getter
     private final int sizeHeight = 100;
