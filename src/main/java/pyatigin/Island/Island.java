@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Island {
     @Getter
-    private final int sizeHeight = 20;
+    private final int sizeHeight = 100;
     @Getter
     private final int sizeWidth = 20;
     @Getter

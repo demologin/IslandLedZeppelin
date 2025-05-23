@@ -11,7 +11,6 @@ import pyatigin.view.ConsoleView;
 
 public class Main {
     public static void main(String[] args) {
-
         OrganismFactory organismFactory = new OrganismFactory();
         Island island = new Island();
         island.IslandCreate(organismFactory);
