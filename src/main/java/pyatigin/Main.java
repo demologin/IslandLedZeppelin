@@ -1,8 +1,6 @@
 package pyatigin;
 
 import pyatigin.Island.Island;
-
-
 import pyatigin.factory.OrganismFactory;
 import pyatigin.interfaceClass.ViewIsland;
 
