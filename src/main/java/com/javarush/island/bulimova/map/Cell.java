@@ -19,8 +19,9 @@ public class Cell {
     private int x;
     private int y;
 
-    private final ReentrantLock lock = new ReentrantLock();
+
     ArrayList<Organism> organism = new ArrayList<>();
+    private final ReentrantLock lock = new ReentrantLock();
 
 
 }

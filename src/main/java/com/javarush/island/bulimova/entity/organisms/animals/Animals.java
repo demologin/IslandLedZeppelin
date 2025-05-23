@@ -19,7 +19,9 @@ public abstract class Animals extends Organism implements Eater, Move {
     }
 
     @Override
+
     public void move(Cell currentCell, Map map) {
+
 
         this.getLock().lock();
         try {
@@ -31,15 +33,36 @@ public abstract class Animals extends Organism implements Eater, Move {
 
 
                 if (targetCell != currentCell) {
+                    Cell firstLockCell;
+                    Cell secondLockCell;
+                    if (compareCells(currentCell, targetCell) < 0) {
+                        firstLockCell = currentCell;
+                        secondLockCell = targetCell;
+                    } else {
+                        firstLockCell = targetCell;
+                        secondLockCell = currentCell;
+                    }
+                    firstLockCell.getLock().lock();
+                    try {
+                        secondLockCell.getLock().lock();
+                        try {
 
-                    currentCell.getOrganism().remove(this);
+                            currentCell.getOrganism().remove(this);
 
-                    targetCell.getOrganism().add(this);
+                            targetCell.getOrganism().add(this);
+                            this.setCountOfStep(this.getCountOfStep() + 1);
 
 
-                    this.setCurrent_weight(getCurrent_weight() - this.getPENALTY_PER_MOVE() * stepLimit);
+                            this.setCurrent_weight(getCurrent_weight() - this.getPENALTY_PER_MOVE() * stepLimit);
+                        } finally {
+                            secondLockCell.getLock().unlock();
+                        }
+                    } finally {
+                        firstLockCell.getLock().unlock();
+                    }
                 }
             }
+
 
         } finally {
             this.getLock().unlock();
@@ -47,6 +70,13 @@ public abstract class Animals extends Organism implements Eater, Move {
 
         }
 
+    }
+
+    private int compareCells(Cell a, Cell b) {
+        if (a.getX() != b.getX()) {
+            return Integer.compare(a.getX(), b.getX());
+        }
+        return Integer.compare(a.getY(), b.getY());
     }
 
     private Cell anotherCell(Cell[][] map, Cell currentCell, int stepLimit) {
@@ -102,6 +132,7 @@ public abstract class Animals extends Organism implements Eater, Move {
     @Override
     public void eat(Cell currentCell) {
     }
+
 
 }
 

@@ -21,8 +21,8 @@ public class Herbivores extends Animals {
 
         if (!her.isEmpty()) {
             Organism org = her.get();
+            org.getLock().lock();
             try {
-                org.getLock().lock();
                 double currentWeight = this.getCurrent_weight();
                 double maxWeight = this.getMAX_WEIGHT_ORGANISM();
                 double otherWeight = org.getCurrent_weight();
@@ -30,14 +30,12 @@ public class Herbivores extends Animals {
                 double availableWeight = maxWeight - currentWeight;
                 double weightToAdd = Math.min(availableWeight, otherWeight);
                 this.setCurrent_weight(currentWeight + weightToAdd);
-                org.setCurrent_weight(0.0);
                 currentCell.getOrganism().remove(org);
-
+                this.setHungry(false);
             } finally {
                 org.getLock().unlock();
             }
 
-            this.setHungry(false);
         }
 
     }

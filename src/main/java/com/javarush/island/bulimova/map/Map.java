@@ -1,6 +1,5 @@
 package com.javarush.island.bulimova.map;
 
-import com.javarush.island.bulimova.util.constants.Constants;
 import lombok.Data;
 
 

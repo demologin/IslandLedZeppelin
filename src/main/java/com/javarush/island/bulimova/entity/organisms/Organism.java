@@ -30,13 +30,15 @@ public abstract class Organism implements Reproduce, Cloneable {
 
     private final double PENALTY_PER_MOVE;
 
+    private int countOfStep = 0;
+
     public Organism(int COUNT_IN_CELL, String ICON, double MAX_WEIGHT_ORGANISM, int SPEED) {
         this.COUNT_IN_CELL = COUNT_IN_CELL;
         this.ICON = ICON;
         this.MAX_WEIGHT_ORGANISM = MAX_WEIGHT_ORGANISM;
-        this.current_weight = ThreadLocalRandom.current().nextDouble(0, (MAX_WEIGHT_ORGANISM +1));
+        this.current_weight = ThreadLocalRandom.current().nextDouble(0, (MAX_WEIGHT_ORGANISM + 1));
         this.SPEED = SPEED;
-        this.GENDER=Gender.getRandomGender();
+        this.GENDER = Gender.getRandomGender();
         this.hungry = true;
         this.PENALTY_PER_MOVE = (this.current_weight * 0.05);
     }
@@ -87,9 +89,8 @@ public abstract class Organism implements Reproduce, Cloneable {
 
     @Override
     public void reproduce(Cell currentCell) {
-
+        currentCell.getLock().lock();
         try {
-            currentCell.getLock().lock();
             long herCount = currentCell.getOrganism().stream().filter(a -> this.getClass().isInstance(a))
                     .count();
 
@@ -100,21 +101,20 @@ public abstract class Organism implements Reproduce, Cloneable {
                         .findAny();
                 if (!her.isEmpty()) {
                     Organism org = her.get();
+                    org.getLock().lock();
                     try {
-                        org.getLock().lock();
                         Organism clonedOrganism = (Organism) org.clone();
                         currentCell.getOrganism().add(clonedOrganism);
-                        setHungry(false);
+                        this.setHungry(false);
 
                     } finally {
                         org.getLock().unlock();
                     }
 
                 }
-                setHungry(true);
             }
         } finally {
-            setHungry(true);
+            this.setHungry(true);
             currentCell.getLock().unlock();
 
 
@@ -133,4 +133,16 @@ public abstract class Organism implements Reproduce, Cloneable {
         }
     }
 
+    public void dead(Cell currentCell) {
+        this.getLock().lock();
+        currentCell.getLock().lock();
+        try {
+            if (this.countOfStep == 5) {
+                currentCell.getOrganism().remove(this);
+            }
+        } finally {
+            this.getLock().unlock();
+            currentCell.getLock().unlock();
+        }
+    }
 }
