@@ -1,0 +1,25 @@
+---
+GreenGrass:
+  foodItems:
+    GreenGrass: 0
+    Rabbit: 0
+    Wolf: 0
+    Fox: 0
+Rabbit:
+  foodItems:
+    GreenGrass: 100
+    Rabbit: 0
+    Wolf: 0
+    Fox: 0
+Wolf:
+  foodItems:
+    GreenGrass: 0
+    Rabbit: 100
+    Wolf: 0
+    Fox: 0
+Fox:
+  foodItems:
+    GreenGrass: 0
+    Rabbit: 70
+    Wolf: 0
+    Fox: 0
